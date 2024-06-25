@@ -2,68 +2,79 @@ function getComputerChoice(choices) {
     let rand_id = Math.floor(Math.random() * choices.length);
     return choices[rand_id]
 }
-function getUserChoice() {
-    user_input = prompt("Hi, write 'r' for Rock, 'p' for paper, and 's' for scissors:");
-    while (user_input != "r" && user_input != "p" && user_input != "s") {
-        user_input = prompt("Please enter right letter for your choice. Write 'r' for Rock, 'p' for paper, and 's' for scissors:");
-    }
-    if (user_input === "r") {
-        return "rock"
-    }
-    else if (user_input === "p") {
-        return "paper"
-    }
-    else {
-        return "scissors"
-    }
+
+const buttons = document.querySelectorAll("button");
+const user = document.querySelector(".user-choice");
+const comp = document.querySelector(".computer-choice");
+const userTextRef = document.querySelector(".user-text");
+const compTextRef = document.querySelector(".comp-text");
+
+function getUserChoice(event) {
+    const btnText = event.target.textContent;
+    return btnText;
 }
-const choices = ["rock", "paper", "scissors"];
+
+const choices = ["Rock", "Paper", "Scissors"];
 let compScore = 0;
 let userScore = 0;
-let round = 0
+let round = 0;
+
+
 
 function pointTheGame(compChoice, userChoice) {
     if (compChoice == userChoice) {
         console.log("No point for anyone");
     }
-    else if (compChoice == "rock" && userChoice == "paper") {
+    else if (compChoice == "Rock" && userChoice == "Paper") {
         console.log("Point for User!");
         userScore += 1;
     }
-    else if (compChoice == "rock" && userChoice == "scissors") {
+    else if (compChoice == "Rock" && userChoice == "Scissors") {
         console.log("Point for Computer!");
         compScore += 1;
     }
-    else if (compChoice == "paper" && userChoice == "scissors") {
+    else if (compChoice == "Paper" && userChoice == "Scissors") {
         console.log("Point for User!");
         userScore += 1;
     }
-    else if (compChoice == "paper" && userChoice == "rock") {
+    else if (compChoice == "Paper" && userChoice == "Rock") {
         console.log("Point for Computer!");
         compScore += 1;
     }
-    else if (compChoice == "scissors" && userChoice == "rock") {
+    else if (compChoice == "Scissors" && userChoice == "Rock") {
         console.log("Point for User!");
         userScore += 1;
     }
-    else if (compChoice == "scissors" && userChoice == "paper") {
+    else if (compChoice == "Scissors" && userChoice == "Paper") {
         console.log("Point for Computer!");
         compScore += 1;
     }
+    
+    user.textContent = `Your choice: ${userChoice}`;
+    comp.textContent = `Computer choice: ${compChoice}`;
+    
+    userTextRef.textContent = `Player's score: ${userScore}`;
+    compTextRef.textContent = `Computer's Score: ${compScore}`;
 }
 
-function playTheGame(gamerounds = 3) {
+function playTheGame(gamerounds = 5) {
     while (round < gamerounds || userScore == compScore) {
+        let userChoice;       
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {userChoice = getUserChoice(event)});
+        });
         let compChoice = getComputerChoice(choices);
-        let userChoice = getUserChoice();
+        
         pointTheGame(compChoice, userChoice);
-        round++
+
+        round++;
     }
     if (userScore > compScore) {
         alert("You won!")
     }
     else {
         alert("Sorry you lost")
-    }
+    }    
 }
-playTheGame()
+
+playTheGame();
